@@ -23,13 +23,13 @@ namespace AspNetCoreDemoApp.Controllers
 		}
 
 		[HttpPost]
-		public string Post(HttpRequestMessage request)
+		public string Post34(HttpRequestMessage request)
 		{
 			return "valuePOST1";
 		}
 
 		[HttpPost]
-		async Task<HttpResponseMessage> Post2(HttpRequestMessage request)
+		async Task<HttpResponseMessage> Post(HttpRequestMessage request)
 		{
 			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 		}
