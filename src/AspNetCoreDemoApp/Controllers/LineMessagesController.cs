@@ -10,8 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 using Microsoft.AspNetCore.Http;
-using LineMessagingAPISDK.Models;
-using LineMessagingAPISDK;
+using AspNetCoreDemoApp.Models;
 
 namespace AspNetCoreDemoApp.Controllers
 

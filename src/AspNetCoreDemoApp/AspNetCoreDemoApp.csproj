@@ -28,12 +28,6 @@
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="LineMessagingAPISDK">
-      <HintPath>..\..\packages\LineMessagingAPISDK.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <Target Name="PrePublishTarget" BeforeTargets="PrepareForPublish">
     <Exec Command="npm install" />
     <Exec Command="npm run build" />
