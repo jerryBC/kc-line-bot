@@ -29,7 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LineMessagingAPISDK\LineMessagingAPISDK.csproj" />
+    <Reference Include="LineMessagingAPISDK">
+      <HintPath>..\..\packages\LineMessagingAPISDK.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PrePublishTarget" BeforeTargets="PrepareForPublish">
