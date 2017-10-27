@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace AspNetCoreDemoApp.Controllers
 {
@@ -24,7 +25,19 @@ namespace AspNetCoreDemoApp.Controllers
 		[HttpPost]
 		public string Post(HttpRequestMessage request)
 		{
-			return "value";
+			return "valuePOST1";
+		}
+
+		[HttpPost]
+		async Task<HttpResponseMessage> Post2(HttpRequestMessage request)
+		{
+			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+		}
+
+		[HttpPost]
+		async Task<HttpResponseMessage> Post3(HttpRequestMessage request)
+		{
+			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 		}
 	}
 }
