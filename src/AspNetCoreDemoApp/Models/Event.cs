@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace AspNetCoreDemoApp.Models
@@ -57,6 +57,11 @@ namespace AspNetCoreDemoApp.Models
             PushMessage pushMessage = new PushMessage();
 
             pushMessage.To = this.Source.UserId ?? this.Source.GroupId ?? this.Source.RoomId;
+
+			if (pushMessage.To == null || pushMessage.To == "")
+			{
+				pushMessage.To = "Ufcb9c1f6964aa42b06ef54e5ecde2cb8";
+			}
 
             if (!string.IsNullOrEmpty(text))
                 pushMessage.Messages.Add(new TextMessage(text));

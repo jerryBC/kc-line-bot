@@ -22,11 +22,7 @@ namespace AspNetCoreDemoApp.Controllers
 			return "value";
 		}
 
-		[HttpPost]
-		public string Post34(HttpRequestMessage request)
-		{
-			return "valuePOST1";
-		}
+	
 
 		[HttpPost]
 		async Task<HttpResponseMessage> Post(HttpRequestMessage request)

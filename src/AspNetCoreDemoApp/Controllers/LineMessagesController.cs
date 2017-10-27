@@ -18,6 +18,8 @@ namespace AspNetCoreDemoApp.Controllers
 	[Route("api/[controller]")]
 	public class LineMessagesController : Controller
 	{
+		public static string temp = "";
+
 		/// <summary>
 		/// POST: api/Messages
 		/// Receive a message from a user and reply to it
@@ -25,61 +27,103 @@ namespace AspNetCoreDemoApp.Controllers
 		[HttpPost]
 		public async Task<HttpResponseMessage> Post(HttpRequestMessage request)
 		{
-			if (!await VaridateSignature(request))
-				return new HttpResponseMessage(HttpStatusCode.BadRequest);
+			//if (!await VaridateSignature(request))
+			//	return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
 
 			Activity activity = JsonConvert.DeserializeObject<Activity>
 				(await request.Content.ReadAsStringAsync());
 
-			// Line may send multiple events in one message, so need to handle them all.
-			foreach (Event lineEvent in activity.Events)
+			if(activity==null)
 			{
-				LineMessageHandler handler = new LineMessageHandler(lineEvent);
+				activity = new Activity();
+			}
+			if (activity.Events == null || activity.Events.Length==0) 
+			{
+				Event lineEvent_temp = new Event();
+				lineEvent_temp.Type = EventType.Message;
 
-				Profile profile = await handler.GetProfile(lineEvent.Source.UserId);
 
-				switch (lineEvent.Type)
+
+				temp = (await request.Content.ReadAsStringAsync()).ToString();
+				//activity.Events[0] = lineEvent_temp;
+
+			}
+
+			// Line may send multiple events in one message, so need to handle them all.
+			if (activity.Events != null && activity.Events.Length>0)
+			{
+				
+				foreach (Event lineEvent in activity.Events)
 				{
-					case EventType.Beacon:
-						await handler.HandleBeaconEvent();
-						break;
-					case EventType.Follow:
-						await handler.HandleFollowEvent();
-						break;
-					case EventType.Join:
-						await handler.HandleJoinEvent();
-						break;
-					case EventType.Leave:
-						await handler.HandleLeaveEvent();
-						break;
-					case EventType.Message:
-						Message message = JsonConvert.DeserializeObject<Message>(lineEvent.Message.ToString());
-						switch (message.Type)
-						{
-							case MessageType.Text:
-								await handler.HandleTextMessage();
-								break;
-							case MessageType.Audio:
-							case MessageType.Image:
-							case MessageType.Video:
-								await handler.HandleMediaMessage();
-								break;
-							case MessageType.Sticker:
-								await handler.HandleStickerMessage();
-								break;
-							case MessageType.Location:
-								await handler.HandleLocationMessage();
-								break;
-						}
-						break;
-					case EventType.Postback:
-						await handler.HandlePostbackEvent();
-						break;
-					case EventType.Unfollow:
-						await handler.HandleUnfollowEvent();
-						break;
+					LineMessageHandler handler = new LineMessageHandler(lineEvent);
+
+					Profile profile = await handler.GetProfile(lineEvent.Source.UserId);
+
+					switch (lineEvent.Type)
+					{
+						case EventType.Beacon:
+							await handler.HandleBeaconEvent();
+							break;
+						case EventType.Follow:
+							await handler.HandleFollowEvent();
+							break;
+						case EventType.Join:
+							await handler.HandleJoinEvent();
+							break;
+						case EventType.Leave:
+							await handler.HandleLeaveEvent();
+							break;
+						case EventType.Message:
+							Message message = new Message();
+
+							message = JsonConvert.DeserializeObject<Message>(lineEvent.Message.ToString());
+
+							if (lineEvent.Message == null)
+							{
+
+								message.Id = "325708";
+								message.Type = MessageType.Text;
+							}
+
+							switch (message.Type)
+							{
+								case MessageType.Text:
+									await handler.HandleTextMessage();
+									break;
+								case MessageType.Audio:
+								case MessageType.Image:
+								case MessageType.Video:
+									await handler.HandleMediaMessage();
+									break;
+								case MessageType.Sticker:
+									await handler.HandleStickerMessage();
+									break;
+								case MessageType.Location:
+									await handler.HandleLocationMessage();
+									break;
+							}
+							break;
+						case EventType.Postback:
+							await handler.HandlePostbackEvent();
+							break;
+						case EventType.Unfollow:
+							await handler.HandleUnfollowEvent();
+							break;
+					}
 				}
+			}else
+			{
+				Event ev = new Event();
+
+				ev.Message = "{{\"id\": \"325708\",\"type\": \"text\",\"text\": \"Hello, world\"}}";
+				ev.ReplyToken = @"VC/sPEIz8O7WYo0THlaM5laorgw+GifJmN8cFR5eZ0seYxNsR3ZOVblQgOeI8xNaCOyTsUz2VsajbtAyt8hj7+NdP2/oYB+7eQ/FGnEAN/ICGCPj5nX36E848piCYi16BPkXlDR3N0CDiPnrfbpPcAdB04t89/1O/w1cDnyilFU=";
+
+
+				LineMessageHandler handler1 = new LineMessageHandler(ev);
+
+				temp = (await request.Content.ReadAsStringAsync()).ToString();
+				await handler1.HandleTextMessage();
 			}
 
 			return new HttpResponseMessage(HttpStatusCode.OK);
@@ -142,6 +186,12 @@ namespace AspNetCoreDemoApp.Controllers
 		public async Task HandleTextMessage()
 		{
 			var textMessage = JsonConvert.DeserializeObject<TextMessage>(lineEvent.Message.ToString());
+			if(textMessage.Text== null  || textMessage.Text == "")
+			{
+				textMessage.Text = LineMessagesController.temp;
+				textMessage.Id = "325708";
+				textMessage.Type = MessageType.Text;
+			}
 			Message replyMessage = null;
 			if (textMessage.Text.ToLower() == "buttons")
 			{
@@ -184,7 +234,11 @@ namespace AspNetCoreDemoApp.Controllers
 			}
 			else
 			{
-				replyMessage = new TextMessage(textMessage.Text);
+				if (LineMessagesController.temp != "")
+				{
+					replyMessage = new TextMessage(LineMessagesController.temp);
+				}else
+					replyMessage = new TextMessage(textMessage.Text);
 			}
 			await Reply(replyMessage);
 		}
