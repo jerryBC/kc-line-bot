@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 namespace AspNetCoreDemoApp.Controllers
 {
@@ -16,6 +17,12 @@ namespace AspNetCoreDemoApp.Controllers
 		// GET api/values/5
 		[HttpGet("{id}")]
 		public string Get(int id)
+		{
+			return "value";
+		}
+
+		[HttpPost]
+		public string Post(HttpRequestMessage request)
 		{
 			return "value";
 		}

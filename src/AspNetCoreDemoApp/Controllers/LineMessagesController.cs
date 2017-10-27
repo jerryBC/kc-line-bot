@@ -15,12 +15,14 @@ using AspNetCoreDemoApp.Models;
 namespace AspNetCoreDemoApp.Controllers
 
 {
+	[Route("api/[controller]")]
 	public class LineMessagesController : Controller
 	{
 		/// <summary>
 		/// POST: api/Messages
 		/// Receive a message from a user and reply to it
 		/// </summary>
+		[HttpPost]
 		public async Task<HttpResponseMessage> Post(HttpRequestMessage request)
 		{
 			if (!await VaridateSignature(request))
