@@ -57,7 +57,19 @@ namespace AspNetCoreDemoApp.Controllers
 				}
 				else
 				{
-					return new HttpResponseMessage(System.Net.HttpStatusCode.NotImplemented);
+					//string temp = request.Content.ToString();
+
+					Event ev = new Event();
+
+					ev.Message = "{{\"id\": \"325708\",\"type\": \"text\",\"text\": \"Hello, world\"}}";
+					ev.ReplyToken = @"VC/sPEIz8O7WYo0THlaM5laorgw+GifJmN8cFR5eZ0seYxNsR3ZOVblQgOeI8xNaCOyTsUz2VsajbtAyt8hj7+NdP2/oYB+7eQ/FGnEAN/ICGCPj5nX36E848piCYi16BPkXlDR3N0CDiPnrfbpPcAdB04t89/1O/w1cDnyilFU=";
+
+
+					LineMessageHandler handler1 = new LineMessageHandler(ev);
+					await handler1.HandleTextMessage();
+
+					return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+
 				}
 			}
 			else
