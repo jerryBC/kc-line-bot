@@ -74,7 +74,7 @@ namespace AspNetCoreDemoApp
         /// <param name="pushMessage"></param>
         public async Task PushAsync(PushMessage pushMessage)
         {
-            using (HttpClient client = GetClient())
+			using (HttpClient client = GetClient())
             {
                 JsonSerializerSettings settings = new JsonSerializerSettings()
                 {

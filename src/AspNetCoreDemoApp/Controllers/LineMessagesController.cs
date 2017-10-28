@@ -245,6 +245,7 @@ namespace AspNetCoreDemoApp.Controllers
 			}
 			catch
 			{
+				
 				await lineClient.PushAsync(lineEvent.CreatePush(message: replyMessage));
 			}
 		}

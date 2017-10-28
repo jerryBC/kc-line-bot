@@ -58,12 +58,16 @@ namespace AspNetCoreDemoApp.Models
 
             pushMessage.To = this.Source.UserId ?? this.Source.GroupId ?? this.Source.RoomId;
 
+			
+
 			if (pushMessage.To == null || pushMessage.To == "")
 			{
 				pushMessage.To = "Ufcb9c1f6964aa42b06ef54e5ecde2cb8";
 			}
 
-            if (!string.IsNullOrEmpty(text))
+			//Demo for bot
+			text = "I am a bot, You have been sent to me a message: ";
+			if (!string.IsNullOrEmpty(text))
                 pushMessage.Messages.Add(new TextMessage(text));
             if (message != null)
                 pushMessage.Messages.Add(message);
