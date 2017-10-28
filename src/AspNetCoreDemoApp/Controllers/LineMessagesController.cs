@@ -38,13 +38,14 @@ namespace AspNetCoreDemoApp.Controllers
 
 			try
 			{
-				var temp = request.Content.ToString();
+				var temp1 = request.Content.ToString();
 
 				activity = JsonConvert.DeserializeObject<Activity>
-					(temp);
+					(temp1);
 			}
 			catch (Exception ex)
 			{
+				//return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 				//return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 			}
 
@@ -59,7 +60,7 @@ namespace AspNetCoreDemoApp.Controllers
 
 
 
-				temp = (await request.Content.ReadAsStringAsync()).ToString();
+				temp = request.Content.ToString();
 				//activity.Events[0] = lineEvent_temp;
 
 			}
@@ -71,6 +72,8 @@ namespace AspNetCoreDemoApp.Controllers
 				foreach (Event lineEvent in activity.Events)
 				{
 					LineMessageHandler handler = new LineMessageHandler(lineEvent);
+
+					if(temp!=null) return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 
 					Profile profile = await handler.GetProfile(lineEvent.Source.UserId);
 
