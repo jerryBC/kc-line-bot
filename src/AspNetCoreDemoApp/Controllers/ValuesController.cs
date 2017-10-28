@@ -22,17 +22,11 @@ namespace AspNetCoreDemoApp.Controllers
 			return "value";
 		}
 
-	
-
 		[HttpPost]
-		async Task<HttpResponseMessage> Post(HttpRequestMessage request)
+		public async Task<HttpResponseMessage> Post(HttpRequestMessage request)
 		{
-			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-		}
-
-		[HttpPost]
-		async Task<HttpResponseMessage> Post3(HttpRequestMessage request)
-		{
+			// do some thing
+			string temp = (await request.Content.ReadAsStringAsync()).ToString();
 			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 		}
 	}

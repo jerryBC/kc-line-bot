@@ -29,7 +29,10 @@ namespace AspNetCoreDemoApp.Controllers
 		{
 			//if (!await VaridateSignature(request))
 			//	return new HttpResponseMessage(HttpStatusCode.BadRequest);
-
+			if (request != null)
+			{
+				return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+			}
 
 			Activity activity = JsonConvert.DeserializeObject<Activity>
 				(await request.Content.ReadAsStringAsync());
