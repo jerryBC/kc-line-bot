@@ -26,7 +26,7 @@ namespace AspNetCoreDemoApp.Controllers
 		public async Task<HttpResponseMessage> Post(HttpRequestMessage request)
 		{
 			// do some thing
-			string temp = (await request.Content.ReadAsStringAsync()).ToString();
+			string temp = request.Content.ToString();
 			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 		}
 	}
