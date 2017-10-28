@@ -45,7 +45,11 @@ namespace AspNetCoreDemoApp.Models
 
             replyMessage.ReplyToken = this.ReplyToken;
 
-            if (!string.IsNullOrEmpty(text))
+			//Demo for bot
+			text = "I am a bot, You have been sent to me a message: ";
+
+
+			if (!string.IsNullOrEmpty(text))
                 replyMessage.Messages.Add(new TextMessage(text));
             if (messages != null)
                 replyMessage.Messages.AddRange(messages);
