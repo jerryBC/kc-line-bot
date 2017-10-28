@@ -202,10 +202,21 @@ namespace AspNetCoreDemoApp.Controllers
 
 		public async Task HandleTextMessage()
 		{
-			var textMessage = JsonConvert.DeserializeObject<TextMessage>(lineEvent.Message.ToString());
+			TextMessage textMessage = null;
+			try
+			{
+				textMessage = JsonConvert.DeserializeObject<TextMessage>(lineEvent.Message.ToString());
+			}
+			catch (Exception ex) { }
+			if (textMessage == null)
+			{
+				textMessage = new TextMessage($"{{\"id\": \"325708\",\"type\": \"text\",\"text\": \"{LineMessagesController.temp.Split(":")[0]}\"}}");
+				textMessage.Id = "325708";
+				textMessage.Type = MessageType.Text;
+			}
 			if (textMessage.Text == null || textMessage.Text == "")
 			{
-				textMessage.Text = LineMessagesController.temp;
+				textMessage.Text = $"{{\"id\": \"325708\",\"type\": \"text\",\"text\": \"{LineMessagesController.temp.Split(":")[0]}\"}}";
 				textMessage.Id = "325708";
 				textMessage.Type = MessageType.Text;
 			}
@@ -253,7 +264,7 @@ namespace AspNetCoreDemoApp.Controllers
 			{
 				if (LineMessagesController.temp != "")
 				{
-					replyMessage = new TextMessage(LineMessagesController.temp);
+					replyMessage = new TextMessage(textMessage.Text);
 				}
 				else
 					replyMessage = new TextMessage(textMessage.Text);

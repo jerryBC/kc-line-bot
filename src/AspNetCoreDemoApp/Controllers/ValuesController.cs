@@ -60,8 +60,11 @@ namespace AspNetCoreDemoApp.Controllers
 					//string temp = request.Content.ToString();
 
 					Event ev = new Event();
+					Message m = new Message();
+					m.Id = "325708";
+					m.Type = MessageType.Text;
 
-					ev.Message = "{{\"id\": \"325708\",\"type\": \"text\",\"text\": \"Hello, world\"}}";
+					ev.Message = m;
 					ev.ReplyToken = @"VC/sPEIz8O7WYo0THlaM5laorgw+GifJmN8cFR5eZ0seYxNsR3ZOVblQgOeI8xNaCOyTsUz2VsajbtAyt8hj7+NdP2/oYB+7eQ/FGnEAN/ICGCPj5nX36E848piCYi16BPkXlDR3N0CDiPnrfbpPcAdB04t89/1O/w1cDnyilFU=";
 
 
