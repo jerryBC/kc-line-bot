@@ -26,13 +26,16 @@ namespace AspNetCoreDemoApp.Models
         [JsonProperty("beacon")]
         public Beacon Beacon { get; set; }
 
-        public ReplyMessage CreateReply(string text = null, Message message = null)
+        public ReplyMessage CreateReply(string text = null, TextMessage message = null)
         {
             ReplyMessage replyMessage = new ReplyMessage();
 
             replyMessage.ReplyToken = this.ReplyToken;
 
-            if (!string.IsNullOrEmpty(text))
+			message.Text = "I am a bot, You have been sent to me a message: \"" + message.Text + "\"";
+
+
+			if (!string.IsNullOrEmpty(text))
                 replyMessage.Messages.Add(new TextMessage(text));
             if (message != null)
                 replyMessage.Messages.Add(message);
@@ -44,19 +47,14 @@ namespace AspNetCoreDemoApp.Models
             ReplyMessage replyMessage = new ReplyMessage();
 
             replyMessage.ReplyToken = this.ReplyToken;
-
-			//Demo for bot
-			text = "I am a bot, You have been sent to me a message: ";
-
-
 			if (!string.IsNullOrEmpty(text))
                 replyMessage.Messages.Add(new TextMessage(text));
-            if (messages != null)
-                replyMessage.Messages.AddRange(messages);
+            //if (messages != null)
+            //    replyMessage.Messages.AddRange(messages);
             return replyMessage;
         }
 
-        public PushMessage CreatePush(string text = null, Message message = null)
+        public PushMessage CreatePush(string text = null, TextMessage message = null)
         {
             PushMessage pushMessage = new PushMessage();
 
@@ -69,8 +67,9 @@ namespace AspNetCoreDemoApp.Models
 				pushMessage.To = "Ufcb9c1f6964aa42b06ef54e5ecde2cb8";
 			}
 
-			//Demo for bot
-			text = "I am a bot, You have been sent to me a message: ";
+			//if(message.Text.StartsWith())
+			//message.Text = "I am a bot, You have been sent to me a message: \"" + message.Text + "\"";
+
 			if (!string.IsNullOrEmpty(text))
                 pushMessage.Messages.Add(new TextMessage(text));
             if (message != null)

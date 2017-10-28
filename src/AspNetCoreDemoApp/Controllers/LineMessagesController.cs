@@ -241,12 +241,12 @@ namespace AspNetCoreDemoApp.Controllers
 		{
 			try
 			{
-				await lineClient.ReplyToActivityAsync(lineEvent.CreateReply(message: replyMessage));
+				await lineClient.ReplyToActivityAsync(lineEvent.CreateReply(message: (TextMessage)replyMessage));
 			}
 			catch
 			{
 				
-				await lineClient.PushAsync(lineEvent.CreatePush(message: replyMessage));
+				await lineClient.PushAsync(lineEvent.CreatePush(message: (TextMessage)replyMessage));
 			}
 		}
 	}

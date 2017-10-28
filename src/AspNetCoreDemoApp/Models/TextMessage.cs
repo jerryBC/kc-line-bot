@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace AspNetCoreDemoApp.Models
 {
@@ -26,5 +28,10 @@ namespace AspNetCoreDemoApp.Models
             Type = MessageType.Text;
             this.Text = text;
         }
-    }
+
+		public static implicit operator TextMessage(List<Message> v)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
