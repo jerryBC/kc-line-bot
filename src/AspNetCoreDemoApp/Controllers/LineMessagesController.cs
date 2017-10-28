@@ -38,8 +38,10 @@ namespace AspNetCoreDemoApp.Controllers
 
 			try
 			{
+				var temp = request.Content.ToString();
+
 				activity = JsonConvert.DeserializeObject<Activity>
-					(await request.Content.ReadAsStringAsync());
+					(temp);
 			}
 			catch (Exception ex)
 			{
