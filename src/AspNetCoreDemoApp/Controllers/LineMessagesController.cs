@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net;
-
+using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
 
 using Microsoft.AspNetCore.Http;
 using AspNetCoreDemoApp.Models;
-using Newtonsoft.Json;
 
 namespace AspNetCoreDemoApp.Controllers
 
@@ -26,37 +25,47 @@ namespace AspNetCoreDemoApp.Controllers
 		/// Receive a message from a user and reply to it
 		/// </summary>
 		[HttpPost]
-		public async Task<HttpResponseMessage> Post([FromBody] string text)
+		public async Task<HttpResponseMessage> Post(HttpRequestMessage request)
 		{
 			//if (!await VaridateSignature(request))
 			//	return new HttpResponseMessage(HttpStatusCode.BadRequest);
-			if (text != null)
+			//if (request != null)
+			//{
+			//	return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+			//}
+
+			Activity activity = new Activity();
+
+			try
 			{
-				return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+				activity = JsonConvert.DeserializeObject<Activity>
+					(await request.Content.ReadAsStringAsync());
+			}
+			catch (Exception ex)
+			{
+				//return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 			}
 
-			Activity activity = JsonConvert.DeserializeObject<Activity>(text);
-
-			if(activity==null)
+			if (activity == null)
 			{
 				activity = new Activity();
 			}
-			if (activity.Events == null || activity.Events.Length==0) 
+			if (activity.Events == null || activity.Events.Length == 0)
 			{
 				Event lineEvent_temp = new Event();
 				lineEvent_temp.Type = EventType.Message;
 
 
 
-				temp = (text);
+				temp = (await request.Content.ReadAsStringAsync()).ToString();
 				//activity.Events[0] = lineEvent_temp;
 
 			}
 
 			// Line may send multiple events in one message, so need to handle them all.
-			if (activity.Events != null && activity.Events.Length>0)
+			if (activity.Events != null && activity.Events.Length > 0)
 			{
-				
+
 				foreach (Event lineEvent in activity.Events)
 				{
 					LineMessageHandler handler = new LineMessageHandler(lineEvent);
@@ -115,7 +124,8 @@ namespace AspNetCoreDemoApp.Controllers
 							break;
 					}
 				}
-			}else
+			}
+			else
 			{
 				Event ev = new Event();
 
@@ -125,7 +135,7 @@ namespace AspNetCoreDemoApp.Controllers
 
 				LineMessageHandler handler1 = new LineMessageHandler(ev);
 
-				temp = (text);
+				temp = (await request.Content.ReadAsStringAsync()).ToString();
 				await handler1.HandleTextMessage();
 			}
 
@@ -189,7 +199,7 @@ namespace AspNetCoreDemoApp.Controllers
 		public async Task HandleTextMessage()
 		{
 			var textMessage = JsonConvert.DeserializeObject<TextMessage>(lineEvent.Message.ToString());
-			if(textMessage.Text== null  || textMessage.Text == "")
+			if (textMessage.Text == null || textMessage.Text == "")
 			{
 				textMessage.Text = LineMessagesController.temp;
 				textMessage.Id = "325708";
@@ -240,7 +250,8 @@ namespace AspNetCoreDemoApp.Controllers
 				if (LineMessagesController.temp != "")
 				{
 					replyMessage = new TextMessage(LineMessagesController.temp);
-				}else
+				}
+				else
 					replyMessage = new TextMessage(textMessage.Text);
 			}
 			await Reply(replyMessage);
