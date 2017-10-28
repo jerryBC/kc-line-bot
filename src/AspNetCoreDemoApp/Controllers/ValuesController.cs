@@ -50,10 +50,10 @@ namespace AspNetCoreDemoApp.Controllers
 						return new HttpResponseMessage(System.Net.HttpStatusCode.BadGateway);
 					}
 
-					temp = (await request.Content.ReadAsStringAsync()).ToString();
-					await handler1.HandleTextMessage();
+					//temp = (await request.Content.ReadAsStringAsync()).ToString();
+					//await handler1.HandleTextMessage();
 
-					return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+					//return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 				}
 				else
 				{
