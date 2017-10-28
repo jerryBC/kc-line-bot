@@ -40,6 +40,8 @@ namespace AspNetCoreDemoApp.Controllers
 			{
 				var temp1 = request.Content.ToString();
 
+				if (temp1 == null) return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+
 				activity = JsonConvert.DeserializeObject<Activity>
 					(temp1);
 			}
