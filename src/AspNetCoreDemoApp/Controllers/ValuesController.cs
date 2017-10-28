@@ -69,9 +69,10 @@ namespace AspNetCoreDemoApp.Controllers
 
 
 					LineMessageHandler handler1 = new LineMessageHandler(ev);
-					await handler1.HandleTextMessage();
-
 					return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+					//await handler1.HandleTextMessage();
+
+					//return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 
 				}
 			}
