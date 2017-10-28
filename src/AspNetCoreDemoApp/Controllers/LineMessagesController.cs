@@ -42,8 +42,8 @@ namespace AspNetCoreDemoApp.Controllers
 
 				if (temp1 == null) return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 
-				activity = JsonConvert.DeserializeObject<Activity>
-					(temp1);
+				activity = JsonConvert.DeserializeObject<Activity>(temp1);
+				
 			}
 			catch (Exception ex)
 			{
@@ -51,26 +51,11 @@ namespace AspNetCoreDemoApp.Controllers
 				//return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 			}
 
-			if (activity == null)
-			{
-				activity = new Activity();
-			}
-			if (activity.Events == null || activity.Events.Length == 0)
-			{
-				Event lineEvent_temp = new Event();
-				lineEvent_temp.Type = EventType.Message;
-
-
-
-				temp = request.Content.ToString();
-				//activity.Events[0] = lineEvent_temp;
-
-			}
+			
 
 			// Line may send multiple events in one message, so need to handle them all.
-			if (activity.Events != null && activity.Events.Length > 0)
-			{
-
+			if (activity != null )
+			{	 
 				foreach (Event lineEvent in activity.Events)
 				{
 					LineMessageHandler handler = new LineMessageHandler(lineEvent);
@@ -141,6 +126,14 @@ namespace AspNetCoreDemoApp.Controllers
 
 
 				LineMessageHandler handler1 = new LineMessageHandler(ev);
+
+				if (ev != null) {
+					return new HttpResponseMessage(System.Net.HttpStatusCode.Ambiguous);
+				}
+				else 
+				{
+					return new HttpResponseMessage(System.Net.HttpStatusCode.BadGateway);
+				}
 
 				temp = (await request.Content.ReadAsStringAsync()).ToString();
 				await handler1.HandleTextMessage();
