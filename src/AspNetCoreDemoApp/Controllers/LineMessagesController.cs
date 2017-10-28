@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net;
-using Newtonsoft.Json;
+
 using System.Security.Cryptography;
 using System.Text;
 
 using Microsoft.AspNetCore.Http;
 using AspNetCoreDemoApp.Models;
+using Newtonsoft.Json;
 
 namespace AspNetCoreDemoApp.Controllers
 
@@ -25,17 +26,16 @@ namespace AspNetCoreDemoApp.Controllers
 		/// Receive a message from a user and reply to it
 		/// </summary>
 		[HttpPost]
-		public async Task<HttpResponseMessage> Post(HttpRequestMessage request)
+		public async Task<HttpResponseMessage> Post([FromBody] string text)
 		{
 			//if (!await VaridateSignature(request))
 			//	return new HttpResponseMessage(HttpStatusCode.BadRequest);
-			if (request != null)
+			if (text != null)
 			{
 				return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 			}
 
-			Activity activity = JsonConvert.DeserializeObject<Activity>
-				(await request.Content.ReadAsStringAsync());
+			Activity activity = JsonConvert.DeserializeObject<Activity>(text);
 
 			if(activity==null)
 			{
@@ -48,7 +48,7 @@ namespace AspNetCoreDemoApp.Controllers
 
 
 
-				temp = (await request.Content.ReadAsStringAsync()).ToString();
+				temp = (text);
 				//activity.Events[0] = lineEvent_temp;
 
 			}
@@ -125,7 +125,7 @@ namespace AspNetCoreDemoApp.Controllers
 
 				LineMessageHandler handler1 = new LineMessageHandler(ev);
 
-				temp = (await request.Content.ReadAsStringAsync()).ToString();
+				temp = (text);
 				await handler1.HandleTextMessage();
 			}
 

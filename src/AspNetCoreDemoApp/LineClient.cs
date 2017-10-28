@@ -50,12 +50,12 @@ namespace AspNetCoreDemoApp
                 StringContent content = new StringContent(
                     JsonConvert.SerializeObject(replyMessage, settings),
                     Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(replyEndpoint, content);
+                var result =  client.PostAsync(replyEndpoint, content);
 
                 if (result.IsSuccessStatusCode)
                     return;
                 else
-                    throw new Exception(await result.Content.ReadAsStringAsync());
+                    throw new Exception( result.Content.ReadAsStringAsync());
                 //200 OK Request successful
                 //400 Bad Request Problem with the request
                 //401 Unauthorized Valid Channel access token is not specified
@@ -87,11 +87,11 @@ namespace AspNetCoreDemoApp
                 StringContent content = new StringContent(
                     JsonConvert.SerializeObject(pushMessage, settings),
                     Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(pushEndpoint, content);
+                var result =  client.PostAsync(pushEndpoint, content);
                 if (result.IsSuccessStatusCode)
                     return;
                 else
-                    throw new Exception(await result.Content.ReadAsStringAsync());
+                    throw new Exception( result.Content.ReadAsStringAsync());
                 //200 OK Request successful
                 //400 Bad Request Problem with the request
                 //401 Unauthorized Valid Channel access token is not specified
@@ -132,11 +132,11 @@ namespace AspNetCoreDemoApp
                 StringContent content = new StringContent(
                     JsonConvert.SerializeObject(message, settings),
                     Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(multicastEndpoint, content);
+                var result =  client.PostAsync(multicastEndpoint, content);
                 if (result.IsSuccessStatusCode)
                     return;
                 else
-                    throw new Exception(await result.Content.ReadAsStringAsync());
+                    throw new Exception( result.Content.ReadAsStringAsync());
                 //200 OK Request successful
                 //400 Bad Request Problem with the request
                 //401 Unauthorized Valid Channel access token is not specified
@@ -156,12 +156,12 @@ namespace AspNetCoreDemoApp
         {
             using (HttpClient client = GetClient())
             {
-                var result = await client.GetAsync(string.Format(contentEndpoint, messageId));
+                var result =  client.GetAsync(string.Format(contentEndpoint, messageId));
                 if (result.IsSuccessStatusCode)
                 {
                     return new Media()
                     {
-                        Content = await result.Content.ReadAsStreamAsync(),
+                        Content =  result.Content.ReadAsStreamAsync(),
                         ContentType = result.Content.Headers.ContentType.MediaType,
                         FileName = result.Content.Headers.ContentDisposition != null ? 
                         result.Content.Headers.ContentDisposition.FileName.Replace("\"", "") : 
@@ -183,11 +183,11 @@ namespace AspNetCoreDemoApp
         {
             using (HttpClient client = GetClient())
             {
-                var result = await client.GetAsync(string.Format(profileEndpoint, mid));
+                var result =  client.GetAsync(string.Format(profileEndpoint, mid));
                 if (!result.IsSuccessStatusCode)
                     return null;
 
-                Profile profiles = JsonConvert.DeserializeObject<Profile>(await result.Content.ReadAsStringAsync());
+                Profile profiles = JsonConvert.DeserializeObject<Profile>( result.Content.ReadAsStringAsync());
 
                 return profiles;
             }
@@ -202,11 +202,11 @@ namespace AspNetCoreDemoApp
         {
             using (HttpClient client = GetClient())
             {
-                var result = await client.GetAsync(string.Format(leaveEndpoint, id));
+                var result =  client.GetAsync(string.Format(leaveEndpoint, id));
                 if (result.IsSuccessStatusCode)
                     return;
                 else
-                    throw new Exception(await result.Content.ReadAsStringAsync());
+                    throw new Exception( result.Content.ReadAsStringAsync());
                 //200 OK Request successful
                 //400 Bad Request Problem with the request
                 //401 Unauthorized Valid Channel access token is not specified
