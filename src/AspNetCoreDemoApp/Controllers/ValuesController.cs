@@ -31,9 +31,18 @@ namespace AspNetCoreDemoApp.Controllers
 				if (request.Content != null)
 				{
 					string temp = request.Content.ToString();
+					return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+				}
+				else
+				{
+					return new HttpResponseMessage(System.Net.HttpStatusCode.NotImplemented);
 				}
 			}
-			return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+			else
+			{
+				return new HttpResponseMessage(System.Net.HttpStatusCode.NotAcceptable);
+			}
+			
 		}
 	}
 }
