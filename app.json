@@ -1,7 +1,7 @@
 {
   "name": "AspNet5DemoApp",
   "description": "Demo app on ASP.NET Core",
-  "repository": "https://github.com/jerryBC/kc-line-bot",
+  "repository": "https://github.com/jerryBC/kc-line-bot-01",
   "keywords": ["aspnet", "core"],
   "stack": "heroku-16",
   "buildpacks": [

@@ -5,7 +5,7 @@
   "description": "Demo app",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jerryBC/kc-line-bot.git"
+    "url": "https://github.com/jerryBC/kc-line-bot-01.git"
   },
   "dependencies": {
     "react": "16.0.0",
